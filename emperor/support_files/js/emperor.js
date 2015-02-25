@@ -1700,6 +1700,34 @@ function makeLine(coords_a, coords_b, color, width){
 	return line;
 }
 
+/*Utility function to draw two-vertices lines at a time with an arrow
+
+  This function allows you to create a line with only two vertices i. e. the
+  start point and the end point, plus the color and width of the line. The
+  end point of the line will have an arrow. The start and end point must
+  be 3 elements array. The color must be a hex-string or a hex number.
+*/
+function makeArrow(coords_a, coords_b, color, headLength, headWidth){
+	// based on the example described in:
+	// https://github.com/mrdoob/three.js/wiki/Drawing-lines
+	var material, geometry, line;
+
+        if ( headLength === undefined ) headLength = 0.2 * length;
+        if ( headWidth === undefined ) headWidth = 0.2 * headLength;
+
+        start = new THREE.Vector3(coords_a[0], coords_a[1], coords_a[2])
+        dir = new THREE.Vector3(coords_b[0] - coords_a[0],
+				coords_b[1] - coords_a[1],
+				coords_b[2] - coords_a[2])
+        var length = Math.sqrt( (coords_b[0] - coords_a[0])*(coords_b[0] - coords_a[0]) +
+				(coords_b[1] - coords_a[1])*(coords_b[1] - coords_a[1])
+				(coords_b[2] - coords_a[2])*(coords_b[2] - coords_a[2]));
+        var arrow = new THREE.ArrowHelper( dir, origin, length, color, headLength, headWidth);
+
+	return arrow;
+}
+
+
 /*Draw each of the lines that represent the X, Y and Z axes in the plot
 
   The length of each of these axes depend on the ranges that the data being
