@@ -494,7 +494,8 @@ EMPEROR_HEADER_HTML_STRING =\
     <!-- JavaScript code -->
 
     <!-- jQuery and other plugins -->
-    <script type="text/javascript" src="emperor_required_resources/vendor/js/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="emperor_required_resources/vendor/js/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="emperor_required_resources/vendor/js/jquery-migrate-1.2.1.min.js"></script>
     <script type="text/javascript" src="emperor_required_resources/vendor/js/jquery-ui-1.8.17.custom.min.js"></script>
     <script type="text/javascript" src="emperor_required_resources/vendor/js/jquery.colorPicker.js"></script>
     <script type="text/javascript" src="emperor_required_resources/vendor/js/spectrum.js"></script>
