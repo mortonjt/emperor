@@ -29,7 +29,7 @@ define([
    * @constructs ScenePlotView3D
    */
    function ScenePlotView3D(renderer, decViews, container, xView, yView,
-                            width, height) {
+			    width, height) {
     var scope = this;
 
     // convert to jquery object for consistency with the rest of the objects
@@ -82,7 +82,7 @@ define([
      * @type {THREE.PerspectiveCamera}
      */
     this.camera = new THREE.PerspectiveCamera(35, width / height,
-                                              frontFrust, backFrust);
+					      frontFrust, backFrust);
     this.camera.position.set(0, 0, max * 5);
 
     //need to initialize the scene
@@ -106,7 +106,7 @@ define([
      * @type {THREE.OrbitControls}
      */
     this.control = new THREE.OrbitControls(this.camera,
-                                           $container.get(0));
+					   $container.get(0));
     this.control.enableKeys = false;
     this.control.rotateSpeed = 1.0;
     this.control.zoomSpeed = 1.2;
@@ -159,21 +159,21 @@ define([
     // Double and single click together from: http://stackoverflow.com/a/7845282
     var DELAY = 200, clicks = 0, timer = null;
     $container.on('click', function(event) {
-        clicks++;
-        if (clicks === 1) {
-            timer = setTimeout(function() {
-                scope._eventCallback('click', event);
-                clicks = 0;
-            }, DELAY);
-        }
-        else {
-            clearTimeout(timer);
-            scope._eventCallback('dblclick', event);
-            clicks = 0;
-        }
+	clicks++;
+	if (clicks === 1) {
+	    timer = setTimeout(function() {
+		scope._eventCallback('click', event);
+		clicks = 0;
+	    }, DELAY);
+	}
+	else {
+	    clearTimeout(timer);
+	    scope._eventCallback('dblclick', event);
+	    clicks = 0;
+	}
     })
     .on('dblclick', function(event) {
-        event.preventDefault();  //cancel system double-click event
+	event.preventDefault();  //cancel system double-click event
     });
 
     //Add info div as bottom of canvas
@@ -196,7 +196,7 @@ define([
     // set the timeout for fading out the info div
     var infoDuration = 2500;
     var infoTimeout = setTimeout(function() {
-        scope.$info.fadeOut();
+	scope.$info.fadeOut();
       }, infoDuration);
 
     this.on('click', function(n, i) {
@@ -206,8 +206,8 @@ define([
 
       // reset the timeout for fading out the info div
       infoTimeout = setTimeout(function() {
-        scope.$info.fadeOut();
-        scope.$info.text('');
+	scope.$info.fadeOut();
+	scope.$info.text('');
       }, infoDuration);
     });
   };
@@ -227,7 +227,7 @@ define([
     // decomposition view dictionary
     for (var decViewName in this.decViews) {
       for (var j = 0; j < this.decViews[decViewName].markers.length; j++) {
-        this.scene.add(this.decViews[decViewName].markers[j]);
+	this.scene.add(this.decViews[decViewName].markers[j]);
       }
     }
 
@@ -251,25 +251,25 @@ define([
     // if there's range data then check it lies within the global ranges
     if (computeRanges === false) {
       _.each(this.decViews, function(decView, name) {
-        var decomp = decView.decomp;
+	var decomp = decView.decomp;
 
-        for (var i = 0; i < decomp.dimensionRanges.max.length; i++) {
-          // global
-          var gMax = scope.dimensionRanges.max[i];
-          var gMin = scope.dimensionRanges.min[i];
+	for (var i = 0; i < decomp.dimensionRanges.max.length; i++) {
+	  // global
+	  var gMax = scope.dimensionRanges.max[i];
+	  var gMin = scope.dimensionRanges.min[i];
 
-          // local
-          var lMax = decomp.dimensionRanges.max[i];
-          var lMin = decomp.dimensionRanges.min[i];
+	  // local
+	  var lMax = decomp.dimensionRanges.max[i];
+	  var lMin = decomp.dimensionRanges.min[i];
 
-          // when we detect a point outside the global ranges we break and
-          // recompute them
-          if (!(gMin <= lMin && lMin <= gMax) ||
-              !(gMin <= lMax && lMax <= gMax)) {
-            computeRanges = true;
-            break;
-          }
-        }
+	  // when we detect a point outside the global ranges we break and
+	  // recompute them
+	  if (!(gMin <= lMin && lMin <= gMax) ||
+	      !(gMin <= lMax && lMax <= gMax)) {
+	    computeRanges = true;
+	    break;
+	  }
+	}
       });
     }
 
@@ -295,23 +295,23 @@ define([
       var decomp = decView.decomp;
 
       if (scope.dimensionRanges.max.length === 0) {
-        scope.dimensionRanges.max = decomp.dimensionRanges.max.slice();
-        scope.dimensionRanges.min = decomp.dimensionRanges.min.slice();
+	scope.dimensionRanges.max = decomp.dimensionRanges.max.slice();
+	scope.dimensionRanges.min = decomp.dimensionRanges.min.slice();
       }
       else {
-        // when we have more than one decomposition view we need to figure out
-        // the absolute largest range that views span over
-        _.each(decomp.dimensionRanges.max, function(value, index) {
-          var vMax = decomp.dimensionRanges.max[index],
-              vMin = decomp.dimensionRanges.min[index];
+	// when we have more than one decomposition view we need to figure out
+	// the absolute largest range that views span over
+	_.each(decomp.dimensionRanges.max, function(value, index) {
+	  var vMax = decomp.dimensionRanges.max[index],
+	      vMin = decomp.dimensionRanges.min[index];
 
-          if (vMax > scope.dimensionRanges.max[index]) {
-            scope.dimensionRanges.max[index] = vMax;
-          }
-          if (vMin < scope.dimensionRanges.min[index]) {
-            scope.dimensionRanges.min[index] = vMin;
-          }
-        });
+	  if (vMax > scope.dimensionRanges.max[index]) {
+	    scope.dimensionRanges.max[index] = vMax;
+	  }
+	  if (vMin < scope.dimensionRanges.min[index]) {
+	    scope.dimensionRanges.min[index] = vMin;
+	  }
+	});
       }
     });
   };
@@ -334,7 +334,7 @@ define([
 
     // shortcut to the index of the visible dimension and the range object
     var x = this.visibleDimensions[0], y = this.visibleDimensions[1],
-        z = this.visibleDimensions[2], range = this.dimensionRanges;
+	z = this.visibleDimensions[2], range = this.dimensionRanges;
 
     // this is the "origin" of our ordination
     var start = [range.min[x], range.min[y], range.min[z]];
@@ -403,22 +403,22 @@ define([
 
       // construct a label of the format: AbbNam (xx.xx %)
       if (decomp.abbreviatedName !== '') {
-        text = decomp.abbreviatedName;
+	text = decomp.abbreviatedName;
       }
       else {
-        // when the labels get too long, it's a bit hard to look at
-        if (decomp.axesNames[index].length > 25) {
-          text = decomp.axesNames[index].slice(0, 20) + '...';
-        }
-        else {
-          text = decomp.axesNames[index];
-        }
+	// when the labels get too long, it's a bit hard to look at
+	if (decomp.axesNames[index].length > 25) {
+	  text = decomp.axesNames[index].slice(0, 20) + '...';
+	}
+	else {
+	  text = decomp.axesNames[index];
+	}
       }
 
       // account for custom axes (their percentage explained will be -1 to
       // indicate that this attribute is not meaningful).
       if (decomp.percExpl[index] >= 0) {
-        text += ' (' + decomp.percExpl[index].toPrecision(4) + ' %)';
+	text += ' (' + decomp.percExpl[index].toPrecision(4) + ' %)';
       }
 
       axisLabel = makeLabel(end, text, color, factor);
@@ -505,7 +505,7 @@ define([
    */
    ScenePlotView3D.prototype.checkUpdate = function() {
     var updateDimensions = false, updateColors = false,
-        currentDimensions, backgroundColor, axesColor;
+	currentDimensions, backgroundColor, axesColor;
 
     // check if any of the decomposition views have changed
     var updateData = _.any(this.decViews, function(dv) {
@@ -616,13 +616,13 @@ define([
       var intersect = intersects[0].object;
 
       for (var i = 0; i < this._subscribers[eventType].length; i++) {
-        // keep going if one of the callbacks fails
-        try {
-          this._subscribers[eventType][i](intersect.name, intersect);
-        } catch (e) {
-          console.error(e);
-        }
-        this.needsUpdate = true;
+	// keep going if one of the callbacks fails
+	try {
+	  this._subscribers[eventType][i](intersect.name, intersect);
+	} catch (e) {
+	  console.error(e);
+	}
+	this.needsUpdate = true;
       }
     }
   };
@@ -643,7 +643,7 @@ define([
   ScenePlotView3D.prototype.on = function(eventType, handler) {
     if (this.EVENTS.indexOf(eventType) === -1) {
       throw new Error('Unknown event ' + eventType + '. Known events are: ' +
-                      this.EVENTS.join(', '));
+		      this.EVENTS.join(', '));
     }
 
     this._subscribers[eventType].push(handler);
@@ -663,7 +663,7 @@ define([
   ScenePlotView3D.prototype.off = function(eventType, handler) {
     if (this.EVENTS.indexOf(eventType) === -1) {
       throw new Error('Unknown event ' + eventType + '. Known events are ' +
-                      this.EVENTS.join(', '));
+		      this.EVENTS.join(', '));
     }
 
     var pos = this._subscribers[eventType].indexOf(handler);

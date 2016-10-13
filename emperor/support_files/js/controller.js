@@ -1,23 +1,23 @@
 define([
-    'jquery',
-    'underscore',
-    'contextmenu',
-    'three',
-    'view',
-    'scene3d',
-    'colorviewcontroller',
-    'visibilitycontroller',
-    'shapecontroller',
-    'axescontroller',
-    'scaleviewcontroller',
-    'filesaver',
-    'viewcontroller',
-    'svgrenderer',
-    'draw'
+  'jquery',
+  'underscore',
+  'contextmenu',
+  'three',
+  'view',
+  'scene3d',
+  'colorviewcontroller',
+  'visibilitycontroller',
+  'shapecontroller',
+  'axescontroller',
+  'scaleviewcontroller',
+  'filesaver',
+  'viewcontroller',
+  'svgrenderer',
+  'draw'
 ], function($, _, contextMenu, THREE, DecompositionView, ScenePlotView3D,
-	     ColorViewController, VisibilityController, ShapeController,
-	     AxesController, ScaleViewController, FileSaver, viewcontroller,
-	     SVGRenderer, Draw) {
+	    ColorViewController, VisibilityController, ShapeController,
+	    AxesController, ScaleViewController, FileSaver, viewcontroller,
+	    SVGRenderer, Draw) {
 
   /**
    *
@@ -114,11 +114,11 @@ define([
      */
     this.renderer = null;
     if (webglcanvas !== undefined) {
-	this.renderer = new THREE.WebGLRenderer({canvas: webglcanvas,
-						 antialias: true});
+      this.renderer = new THREE.WebGLRenderer({canvas: webglcanvas,
+					       antialias: true});
     }
     else {
-	this.renderer = new THREE.WebGLRenderer({antialias: true});
+      this.renderer = new THREE.WebGLRenderer({antialias: true});
     }
 
     this.renderer.setSize(this.width, this.height);
@@ -265,33 +265,33 @@ define([
     }
     else if (this.sceneViews.length === 2) {
       this.sceneViews[0].resize(0, 0, this.SCENE_VIEW_SCALE * plotWidth,
-	  this.height);
+				this.height);
       this.sceneViews[1].resize(this.SCENE_VIEW_SCALE * plotWidth, 0,
-	  this.SCENE_VIEW_SCALE * plotWidth, this.height);
+				this.SCENE_VIEW_SCALE * plotWidth, this.height);
     }
     else if (this.sceneViews.length === 3) {
       this.sceneViews[0].resize(0, 0,
-	  this.SCENE_VIEW_SCALE * plotWidth,
-	  this.SCENE_VIEW_SCALE * this.height);
+				this.SCENE_VIEW_SCALE * plotWidth,
+				this.SCENE_VIEW_SCALE * this.height);
       this.sceneViews[1].resize(this.SCENE_VIEW_SCALE * plotWidth, 0,
-	  this.SCENE_VIEW_SCALE * plotWidth,
-	  this.SCENE_VIEW_SCALE * this.height);
+				this.SCENE_VIEW_SCALE * plotWidth,
+				this.SCENE_VIEW_SCALE * this.height);
       this.sceneViews[2].resize(0, this.SCENE_VIEW_SCALE * this.height,
-	  plotWidth, this.SCENE_VIEW_SCALE * this.height);
+				plotWidth, this.SCENE_VIEW_SCALE * this.height);
     }
     else if (this.sceneViews.length === 4) {
       this.sceneViews[0].resize(0, 0, this.SCENE_VIEW_SCALE * plotWidth,
-	  this.SCENE_VIEW_SCALE * this.height);
+				this.SCENE_VIEW_SCALE * this.height);
       this.sceneViews[1].resize(this.SCENE_VIEW_SCALE * plotWidth, 0,
-	  this.SCENE_VIEW_SCALE * plotWidth,
-	  this.SCENE_VIEW_SCALE * this.height);
+				this.SCENE_VIEW_SCALE * plotWidth,
+				this.SCENE_VIEW_SCALE * this.height);
       this.sceneViews[2].resize(0, this.SCENE_VIEW_SCALE * this.height,
-	  this.SCENE_VIEW_SCALE * plotWidth,
-	  this.SCENE_VIEW_SCALE * this.height);
+				this.SCENE_VIEW_SCALE * plotWidth,
+				this.SCENE_VIEW_SCALE * this.height);
       this.sceneViews[3].resize(this.SCENE_VIEW_SCALE * plotWidth,
-	  this.SCENE_VIEW_SCALE * this.height,
-	  this.SCENE_VIEW_SCALE * plotWidth,
-	  this.SCENE_VIEW_SCALE * this.height);
+				this.SCENE_VIEW_SCALE * this.height,
+				this.SCENE_VIEW_SCALE * plotWidth,
+				this.SCENE_VIEW_SCALE * this.height);
     }
     else {
       throw Error('More than four views are currently not supported');
@@ -371,7 +371,7 @@ define([
     this.controllers.axes = this.addTab(this.sceneViews[0].decViews,
 					AxesController);
     this.controllers.scale = this.addTab(this.sceneViews[0].decViews,
-	ScaleViewController);
+					 ScaleViewController);
 
     // We are tabifying this div, I don't know man.
     this._$tabsContainer.tabs({heightStyle: 'fill',
@@ -449,22 +449,22 @@ define([
 	},
 	'sep1': '---------',
 	'fold1': {
-	    'name': 'Save Image',
-	    icon: 'file-picture-o',
-	    'items': {
-	      'saveImagePNG': {
-		name: 'PNG',
-		callback: function(key, opts) {
-		  scope.screenshot('png');
-		}
-	      },
-	      'saveImageSVG': {
-		name: 'SVG + labels',
-		callback: function(key, opts) {
-		  scope.screenshot('svg');
-		}
+	  'name': 'Save Image',
+	  icon: 'file-picture-o',
+	  'items': {
+	    'saveImagePNG': {
+	      name: 'PNG',
+	      callback: function(key, opts) {
+		scope.screenshot('png');
+	      }
+	    },
+	    'saveImageSVG': {
+	      name: 'SVG + labels',
+	      callback: function(key, opts) {
+		scope.screenshot('svg');
 	      }
 	    }
+	  }
 	}
       }
     });
@@ -502,9 +502,9 @@ define([
       // confirm box based on number of samples: better safe than sorry
       if (this.dm.length >= 9000) {
 	if (confirm('This number of samples could take a long time and in ' +
-	   'some computers the browser will crash. If this happens we ' +
-	   'suggest to use the png implementation. Do you want to ' +
-	   'continue?') == false) {
+		    'some computers the browser will crash. If this happens we ' +
+		    'suggest to use the png implementation. Do you want to ' +
+		    'continue?') == false) {
 	  return;
 	}
       }
@@ -536,10 +536,10 @@ define([
       var viewBox = svgfile.substring(index,
 				      svgfile.indexOf('"', index)).split(' ');
       var background = '<rect id="background" height="' + viewBox[3] +
-		       '" width="' + viewBox[2] + '" y="' + viewBox[1] +
-		       '" x="' + viewBox[0] +
-		       '" stroke-width="0" stroke="#000000" fill="#' +
-		       this.renderer.getClearColor().getHexString() + '"/>';
+	  '" width="' + viewBox[2] + '" y="' + viewBox[1] +
+	  '" x="' + viewBox[0] +
+	  '" stroke-width="0" stroke="#000000" fill="#' +
+	  this.renderer.getClearColor().getHexString() + '"/>';
       index = svgfile.indexOf('>', index) + 1;
       svgfile = svgfile.substr(0, index) + background + svgfile.substr(index);
 
@@ -571,14 +571,14 @@ define([
    * key as the controllers object.
    *
    */
-   EmperorController.prototype.saveConfig = function() {
+  EmperorController.prototype.saveConfig = function() {
     var saveinfo = {};
     // Assuming single sceneview for now
     sceneview = this.sceneViews[0];
     saveinfo.cameraPosition = sceneview.camera.position;
     saveinfo.cameraQuaternion = sceneview.camera.quaternion;
     // Save settings for each controller in the view
-     _.each(this.controllers, function(controller, index) {
+    _.each(this.controllers, function(controller, index) {
       if (controller !== undefined) {
 	saveinfo[index] = controller.toJSON();
       }
@@ -587,7 +587,7 @@ define([
     // Save the file
     var blob = new Blob([JSON.stringify(saveinfo)], {type: 'text/json'});
     saveAs(blob, 'emperor-settings.json');
-   };
+  };
 
   /**
    *
@@ -598,7 +598,7 @@ define([
    * @param {object} json Information about the emperor session to load.
    *
    */
-   EmperorController.prototype.loadConfig = function(json) {
+  EmperorController.prototype.loadConfig = function(json) {
     //still assuming one sceneview for now
     var sceneview = this.sceneViews[0];
 
@@ -615,13 +615,13 @@ define([
     sceneview.control.update();
 
     //load the rest of the controller settings
-     _.each(this.controllers, function(controller, index) {
+    _.each(this.controllers, function(controller, index) {
       if (controller !== undefined) {
 	controller.fromJSON(json[index]);
       }
     });
     sceneview.needsUpdate = true;
-   };
+  };
 
   /**
    *

@@ -1,10 +1,10 @@
 define([
-    'jquery',
-    'underscore',
-    'view',
-    'slickgrid',
-    'chosen',
-    'abcviewcontroller'
+  'jquery',
+  'underscore',
+  'view',
+  'slickgrid',
+  'chosen',
+  'abcviewcontroller'
 ], function($, _, DecompositionView, SlickGrid, Chosen, abc) {
   EmperorViewControllerABC = abc.EmperorViewControllerABC;
 
@@ -39,7 +39,7 @@ define([
     for (var dv in decompViewDict) {
       if (!dv instanceof DecompositionView) {
 	throw Error('The decomposition view dictionary ' +
-	    'can only have decomposition views');
+		    'can only have decomposition views');
       }
     }
     if (_.size(decompViewDict) <= 0) {
@@ -58,7 +58,7 @@ define([
     return this;
   }
   EmperorViewController.prototype = Object.create(
-      EmperorViewControllerABC.prototype);
+    EmperorViewControllerABC.prototype);
   EmperorViewController.prototype.constructor = EmperorViewControllerABC;
 
   /**
@@ -270,8 +270,8 @@ define([
   EmperorAttributeABC.prototype._buildGrid = function(options) {
     var columns = [{id: 'field1', name: '', field: 'category'}];
     var gridOptions = {editable: true, enableAddRow: false,
-      enableCellNavigation: true, forceFitColumns: true,
-      enableColumnReorder: false, autoEdit: true};
+		       enableCellNavigation: true, forceFitColumns: true,
+		       enableColumnReorder: false, autoEdit: true};
 
     // If there's a custom slickgrid column then add it to the object
     if (options.slickGridColumn !== undefined) {
@@ -379,8 +379,8 @@ define([
       // to short-circuit if the name is not already present.  If that's not
       // the case, we also check to ensure the lists are equivalent.
       if (_.contains(_.keys(scope._metadata), name) &&
-	   _.intersection(scope._metadata[name], hdrs).length == hdrs.length &&
-	   scope._metadata[name].length == hdrs.length) {
+	  _.intersection(scope._metadata[name], hdrs).length == hdrs.length &&
+	  scope._metadata[name].length == hdrs.length) {
 	return;
       }
 
