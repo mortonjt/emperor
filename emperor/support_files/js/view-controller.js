@@ -31,15 +31,15 @@ define([
    *
    */
   function EmperorViewController(container, title, description,
-                                 decompViewDict) {
+				 decompViewDict) {
     EmperorViewControllerABC.call(this, container, title, description);
     if (decompViewDict === undefined) {
       throw Error('The decomposition view dictionary cannot be undefined');
     }
     for (var dv in decompViewDict) {
       if (!dv instanceof DecompositionView) {
-        throw Error('The decomposition view dictionary ' +
-            'can only have decomposition views');
+	throw Error('The decomposition view dictionary ' +
+	    'can only have decomposition views');
       }
     }
     if (_.size(decompViewDict) <= 0) {
@@ -48,7 +48,7 @@ define([
 
     /**
      * @type {Object}
-     * This is object is keyed by unique identifiers and the values are
+
      * DecompositionView objects referring to a set of objects presented on
      * screen. This dictionary will usually be shared by all the tabs in the
      * application. This argument is passed by reference.
@@ -65,13 +65,15 @@ define([
    *
    * Retrieve a view from the controller.
    *
-   * This class does not operate on single decomposition views, hence this
-   * method retrieves the first available view.
-   *
+   * If no key is specified, the first decomposition view will be returned.
    */
-  EmperorViewController.prototype.getView = function() {
+  EmperorViewController.prototype.getView = function(key) {
+    if(key === null){
+      key = 0
+    }
+
     // return the first decomposition view available in the dictionary
-    return this.decompViewDict[Object.keys(this.decompViewDict)[0]];
+    return this.decompViewDict[Object.keys(this.decompViewDict)[key]];
   };
 
   /**
@@ -112,9 +114,9 @@ define([
    *
    */
   function EmperorAttributeABC(container, title, description,
-                               decompViewDict, options) {
+			       decompViewDict, options) {
     EmperorViewController.call(this, container, title, description,
-                               decompViewDict);
+			       decompViewDict);
 
     /**
      * @type {Object}
@@ -135,6 +137,9 @@ define([
     this.$gridDiv.css('height', '100%');
     this.$body.append(this.$gridDiv);
 
+    /* TODO: This will need to be updated to handle arbituary
+     * decomposition views.
+     */
     var dm = this.getView().decomp;
     var scope = this;
 
@@ -151,16 +156,16 @@ define([
 
       // setup chosen
       scope.$select.chosen({width: '100%', search_contains: true,
-                            include_group_label_in_selected: true});
+			    include_group_label_in_selected: true});
 
       // only subclasses will provide this callback
       if (options.categorySelectionCallback !== undefined) {
-        scope.$select.chosen().change(options.categorySelectionCallback);
+	scope.$select.chosen().change(options.categorySelectionCallback);
 
-        // now that we have the chosen selector and the table fire a callback
-        // to initialize the data grid
-        options.categorySelectionCallback(
-          null, {selected: scope.$select.val()});
+	// now that we have the chosen selector and the table fire a callback
+	// to initialize the data grid
+	options.categorySelectionCallback(
+	  null, {selected: scope.$select.val()});
       }
 
     });
@@ -216,7 +221,7 @@ define([
 
     if (res === undefined) {
       throw Error('Cannot set "' + m + '" as the metadata field, this column' +
-                  ' is not available in the decomposition views');
+		  ' is not available in the decomposition views');
     }
 
     this.$select.val(m);
@@ -336,6 +341,8 @@ define([
    *
    * @param {Object} json Parsed JSON string representation of self.
    *
+   * TODO: Need to update json to return the specified
+   * decomposition view.
    */
   EmperorAttributeABC.prototype.fromJSON = function(json) {
     this.setMetadataField(json.category);
@@ -372,9 +379,9 @@ define([
       // to short-circuit if the name is not already present.  If that's not
       // the case, we also check to ensure the lists are equivalent.
       if (_.contains(_.keys(scope._metadata), name) &&
-           _.intersection(scope._metadata[name], hdrs).length == hdrs.length &&
-           scope._metadata[name].length == hdrs.length) {
-        return;
+	   _.intersection(scope._metadata[name], hdrs).length == hdrs.length &&
+	   scope._metadata[name].length == hdrs.length) {
+	return;
       }
 
       // create the new category
@@ -385,8 +392,8 @@ define([
       scope.$select.append(group);
 
       _.each(hdrs, function(header) {
-        group.append($('<option>').attr('value', header).text(header));
-        scope._metadata[name].push(header);
+	group.append($('<option>').attr('value', header).text(header));
+	scope._metadata[name].push(header);
       });
     });
 
@@ -394,6 +401,6 @@ define([
   };
 
   return {'EmperorViewControllerABC': EmperorViewControllerABC,
-          'EmperorViewController': EmperorViewController,
-          'EmperorAttributeABC': EmperorAttributeABC};
+	  'EmperorViewController': EmperorViewController,
+	  'EmperorAttributeABC': EmperorAttributeABC};
 });
