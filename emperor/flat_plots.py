@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import seaborn as sns
 import matplotlib as mpl
 
 def plot_3x3(ordination, offset, mapping, field, colors, null_kw=None,
