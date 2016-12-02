@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
-
+import matplotlib as mpl
 
 def plot_3x3(ordination, offset, mapping, field, colors, null_kw=None,
              focus_kw=None):
@@ -134,14 +134,8 @@ def two_dimensional_gradient(ax, field, mapping, ordination, xaxis, yaxis,
 
     nonfield_samples = set(mapping.index) - set(field_values.index)
 
-    # discretize our color gradient, and determine which bin (i.e., color)
-    # a given value is associated with
-    bins = np.arange(field_values.min(),
-                     field_values.max(),
-                     (field_values.max() - field_values.min()) / 256.0)
-
-    order = np.digitize(field_values, bins=bins, right=True)
-    colors = np.array(sns.color_palette(colormap, n_colors=len(bins) + 1))
+    # scale all field values between 0 and 1 for color mapping
+    colors = (field_values - field_values.min()) / field_values.ptp()
 
     # obtain the full vector of positions for each axis
     x_full = ordination.samples[xaxis]
@@ -155,7 +149,7 @@ def two_dimensional_gradient(ax, field, mapping, ordination, xaxis, yaxis,
     # plot samples of interest
     x = x_full.loc[field_values.index].values
     y = y_full.loc[field_values.index].values
-    ax.scatter(x, y, color=colors[order], **focus_kw)
+    ax.scatter(x, y, c=colors, cmap=colormap, **focus_kw)
 
     # finalize
     ax.set_xlim(x_full.min() - gap_to_frame, x_full.max() + gap_to_frame)
